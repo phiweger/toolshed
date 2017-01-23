@@ -89,16 +89,19 @@ with open(arguments['<json>'], 'r+') as file:
 
 
 try:
-    assert sum(d.values()) == 1
+    assert sum(
+        [d[i][0] for i in d.keys()]
+        ) == 1
 except AssertionError:
     print('Weights do not add up to 1.')
     exit()
 
 
 with open(fpout, 'w+') as out:
-    for fp, weight in d.items():
+    for fp in d.keys():
+
         print('processing:', fp)
-        s = Sample(fp, weight)
+        s = Sample(fp, d[fp][0])  # d[fp][0] .. weight
         s.calc_share(total)
         s.read()
 
@@ -107,4 +110,5 @@ with open(fpout, 'w+') as out:
         bar = progressbar.ProgressBar()
         for i in bar(names):
             seq = s.file[i]
-            out.write('>{}\n{}\n'.format(i, seq))
+            out.write('>{}_{}\n{}\n'.format(d[fp][1], i, seq))
+            # d[fp][1] .. label
