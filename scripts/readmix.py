@@ -99,6 +99,7 @@ except AssertionError:
 counter = 0
 with open(fpout, 'w+') as out:
     for fp, weight in d.items():
+        print('processing:', fp)
         s = Sample(fp, weight)
         s.calc_share(total)
         s.read()
@@ -112,5 +113,5 @@ with open(fpout, 'w+') as out:
                     '>{}\n{}\n'.format(name, seq)
                     )
                 counter += 1
-                if counter % 10 == 0:
-                    print(counter)
+                if counter % 100 == 0:
+                    print('read count:', counter)
