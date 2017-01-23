@@ -17,18 +17,18 @@ File paths are specified in json format:
 It is possible to truncate the samples' read distribution for speedup.
 
 Usage:
-  readmix.py <json> [--total=<reads>] [--longest=<nt>] <outfile>
+  readmix.py <json> [--total=<reads>] <outfile>
   readmix.py (-h | --help)
   readmix.py --version
 
 Options:
   -h --help             Show this screen.
   -t --total=<reads>    Total number of reads [default: 1m].
-  -l --longest=<nt>     Speed in knots [default: 100k].
 '''
 
 from docopt import docopt
 import json
+import progressbar
 from pyfaidx import Fasta
 import random
 import re
@@ -84,7 +84,6 @@ arguments = docopt(__doc__, version='readmix 0.1')
 
 fpout = arguments['<outfile>']
 total = convert_abbrev_int(arguments['--total'])
-longest = convert_abbrev_int(arguments['--longest'])
 with open(arguments['<json>'], 'r+') as file:
     d = json.load(file)
 
@@ -96,7 +95,6 @@ except AssertionError:
     exit()
 
 
-counter = 0
 with open(fpout, 'w+') as out:
     for fp, weight in d.items():
         print('processing:', fp)
@@ -104,14 +102,9 @@ with open(fpout, 'w+') as out:
         s.calc_share(total)
         s.read()
 
-        counter = 0
-        while counter < s.share:
-            name = random.sample(s.file.keys(), 1)[0]
-            seq = s.file[name]
-            if len(seq) <= longest:
-                out.write(
-                    '>{}\n{}\n'.format(name, seq)
-                    )
-                counter += 1
-                if counter % 100 == 0:
-                    print('read count:', counter)
+        names = random.sample(s.file.keys(), s.share)
+
+        bar = progressbar.ProgressBar()
+        for i in bar(names):
+            seq = s.file[i]
+            out.write('>{}\n{}\n'.format(i, seq))
