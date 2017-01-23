@@ -10,8 +10,16 @@ its average read length is shorter than another sample's.
 File paths are specified in json format:
 
 {
-    human: 0.9,
-    virus: 0.1
+    "fp/virus.fa":
+    [
+        0.1,
+        "virus"
+    ],
+    "fp/human.fa":
+    [
+        0.9,
+        "human"
+    ]
 }
 
 It is possible to truncate the samples' read distribution for speedup.
