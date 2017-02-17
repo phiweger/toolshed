@@ -1,5 +1,8 @@
 '''Mix read sets.
 
+TODO: Make this script "pipable" so we can add e.g. a truncate script in
+step 2.
+
 Given a json fomatted file of file paths to fasta files with associated weight,
 this script creates a fasta file with the specified read proportions. Note
 that this creates a bias if the read length distribution of the samples is
