@@ -3,10 +3,6 @@ import click
 from tqdm import tqdm
 
 
-# fp = '/Users/pi/data/nanopore/processed/basecalled/2017-09-05_coronavirus.fq'
-# fp_out = '/Users/pi/tmp/test.fq'
-
-
 @click.command()
 @click.option('-i', help='File path to fastq.')
 @click.option('-o', help='File path to output.')
