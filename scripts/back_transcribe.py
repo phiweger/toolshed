@@ -28,27 +28,13 @@ def back_transcribe(i, o):
     - r.name
     - r.description
     '''
-
-    counter = 0
-    uid = set()
-
     print('Back-transcibing sequences:')
     with open(o, 'w+') as out:
 
         for r in tqdm(fq):
-            counter += 0; uid.add(r.description)  # later assert no duplicates
             r.seq = r.seq.back_transcribe()
             SeqIO.write(r, out, 'fastq')
-
-        try:
-            assert len(uid) == counter
-            print('Only unique reads in the fastq -- good.')
-        except AssertionError:
-            print('The back-transcribed file contains duplicates.')
-            pass
-
         print('Done.')
-
 
 if __name__ == '__main__':
     back_transcribe()
