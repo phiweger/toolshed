@@ -37,6 +37,8 @@ def kmerize(seq, ksize, canonical=False):
     reverse complement is returned; important when implementing minhash
     of k-mers
     '''
+    from Bio.Seq import Seq
+
     for i in range(len(seq) - ksize + 1):
         kmer = seq[i:i+ksize]
 

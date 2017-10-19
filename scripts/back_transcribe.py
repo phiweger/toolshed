@@ -36,7 +36,7 @@ def back_transcribe(i, o):
     with open(o, 'w+') as out:
 
         for r in tqdm(fq):
-            counter += 0; uid.add(r.name)  # later assert no duplicates
+            counter += 0; uid.add(r.description)  # later assert no duplicates
             r.seq = r.seq.back_transcribe()
             SeqIO.write(r, out, 'fastq')
 
