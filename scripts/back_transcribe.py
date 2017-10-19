@@ -14,6 +14,12 @@ def back_transcribe(i, o):
     Example:
 
     python back_transcribe -i virus.rna.fq -o virus.dna.fq
+
+    alternative in bash,
+    https://twitter.com/martinalexsmith/status/920766849385562112
+
+    awk '{ if (NR%4 == 2) {gsub(/U/,"T",$1); print $1} else print }' \
+    virus.rna.fq > virus.dna.fq
     '''
 
     fq = SeqIO.parse(i, format='fastq')
